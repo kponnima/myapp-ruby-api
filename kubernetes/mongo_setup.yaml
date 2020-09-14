@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Job
+metadata:
+  name: create-collection
+  namespace: default
+spec:
+  template:
+    metadata:
+      labels:
+        bb: web
+    spec:
+      containers:
+        - name: create-collection
+          image: <%= @image_name %>
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef:
+                  name: books-api-secrets
+                  key: USER
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: books-api-secrets
+                  key: PASSWORD
+<% if @environment == 'minikube' || @environment == 'development' %>
+          command: ['/var/www/apps/books-api/mongo/collections.rb']
+          volumeMounts:
+          - name: application
+            mountPath: /var/www/apps/books-api
+        volumes:
+        - name: application
+          hostPath:
+            path: <%= File.join((ENV['SOURCE_PATH'] ? ENV['SOURCE_PATH'] : ENV['HOME']), 'books-api/src') %>
+<% end %>
+        restartPolicy: Never
+    backoffLimit: 4

@@ -1,0 +1,17 @@
+require 'rake'
+require 'rake/testtask'
+
+desc 'unit tests'
+Rake::TestTask.new do |t|
+  t.pattern = 'test/**/*_test.rb'
+  t.warning = false
+  t.verbose = true
+end
+
+# require 'rspec/core/rake_task'
+
+# RSpec::Core::RakeTask.new :specs do |task|
+#   task.pattern = Dir['spec/**/*_spec.rb']
+# end
+
+# task :default => ['specs']

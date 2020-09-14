@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-ruby-api
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp-ruby-api
+  template:
+    metadata:
+      labels:
+        app: myapp-ruby-api
+    spec:
+      containers:
+        - name: myapp-ruby-api
+          image: myapp-ruby-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: PORT
+              value: "8081"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-ruby-api
+  namespace: default
+spec:
+  selector:
+    app: myapp-ruby-api
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8081 #4567

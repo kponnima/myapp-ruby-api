@@ -1,0 +1,45 @@
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
+
+ruby '2.7.1'
+
+gem 'rack', '>= 2.0.6'
+gem 'sinatra'
+# Required to use some advanced features of# Sinatra, like namespaces
+gem 'sinatra-contrib'
+gem 'sinatra-param'
+
+# Ruby driver for MongoDB
+gem 'bson'
+gem 'mongo', '~> 2.13.0', '>= 2.13.0'
+
+# Additional gems
+gem 'puma'
+gem 'json'
+gem 'rake'
+gem 'rest-client'
+gem 'dotenv'
+
+# json-schema validation
+gem 'json-schema'
+# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
+# gem 'rack-cors'
+
+group :development do
+  gem 'rerun'
+  gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+  gem 'rubocop', require: false
+end
+
+group :test do
+  gem 'rspec'
+  gem 'rack-test'
+  # gem 'ci_reporter_test_unit'
+end
+
+# group :test do
+#   gem 'minitest'
+#   gem 'mocha'
+#   gem 'rack-test'
+# end
