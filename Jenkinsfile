@@ -1,5 +1,5 @@
 pipeline {
-  agent { docker { image 'ruby:2.7.1' } }
+  agent { docker { image 'ruby:2.7-slim' } }
   environment {
     CI = 'true'
   }

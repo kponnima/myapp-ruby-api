@@ -6,10 +6,12 @@
 
 # Ignore bundler config.
 /.bundle
+src/.bundle
 /jenkins_data
 
 # Ignore all logfiles and tempfiles.
 /log/*
+src/log/*
 /tmp/*
 !/log/.keep
 !/tmp/.keep
