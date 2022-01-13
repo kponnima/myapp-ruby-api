@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp-ruby-api
-  namespace: default
+  namespace: myapps-ns
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: myapp-ruby-api
@@ -15,23 +15,40 @@ spec:
     spec:
       containers:
         - name: myapp-ruby-api
-          image: myapp-ruby-api:latest
-          imagePullPolicy: IfNotPresent
+          image: docker.io/kponnima86/myapp-ruby-api:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8081
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "300m"
+            limits:
+              memory: "200Mi"
+              cpu: "600m"
           env:
             - name: PORT
               value: "8081"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8081
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+      restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: myapp-ruby-api
-  namespace: default
+  namespace: myapps-ns
 spec:
   selector:
     app: myapp-ruby-api
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 80
-      targetPort: 8081 #4567
+      targetPort: 8081
+      protocol: TCP
+      nodePort: 31002 #Within default 30000-32767 minikube range

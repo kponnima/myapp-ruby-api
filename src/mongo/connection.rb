@@ -12,7 +12,7 @@ def get_connection_string
   use_atlas = ENV['MONGO_ATLAS'] || false
   host = ENV['MONGO_HOST'] || '127.0.0.1'
   port = ENV['MONGO_PORT'] || '27017'
-  db = ENV['MONGO_DB'] || 'myappyDB'
+  db = ENV['MONGO_DB'] || 'myappDB'
   user = ENV['MONGO_USER']
   password = ERB::Util.url_encode(ENV['MONGO_PASSWORD'])
   # password = ENV['MONGO_PASSWORD']

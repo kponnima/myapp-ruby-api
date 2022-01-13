@@ -2,9 +2,9 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.1'
+ruby '3.1.0'
 
-gem 'rack', '>= 2.0.6'
+gem 'rack'
 gem 'sinatra'
 # Required to use some advanced features of# Sinatra, like namespaces
 gem 'sinatra-contrib'
@@ -12,7 +12,7 @@ gem 'sinatra-param'
 
 # Ruby driver for MongoDB
 gem 'bson'
-gem 'mongo', '~> 2.13.0', '>= 2.13.0'
+gem 'mongo'
 
 # Additional gems
 gem 'puma'

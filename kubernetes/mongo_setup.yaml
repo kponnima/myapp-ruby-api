@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Job
 metadata:
   name: create-collection
-  namespace: default
+  namespace: myapps-ns
 spec:
   template:
     metadata:

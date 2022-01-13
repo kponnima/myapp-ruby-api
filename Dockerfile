@@ -1,16 +1,18 @@
-FROM ruby:2.7-slim
+# Pull base image
+FROM ruby:3.1.0-slim-buster
+# FROM ruby:3.1.0-slim-buster AS builder
 
 # Install the essential ruby build tools
 RUN apt-get update -qq && apt-get install -y build-essential
 RUN apt-get clean
 
 # Set the working directory.
-ENV APP_HOME /app
+ENV APP_HOME /usr/local/app
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
 # Install gems
-COPY src/Gemfile* $APP_HOME
+COPY src/Gemfile* $APP_HOME/
 # RUN bundle install
 RUN bundle config set without 'development test'
 RUN bundle install
@@ -35,11 +37,18 @@ CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "8081"]
 # CMD ["ruby", "-S", "rackup", "config.ru", "-s", "puma"]
 # CMD ["ruby", "-S", "rackup", "config.ru"]
 
-# FROM nginx:1.17.10-alpine
+# Build nginx
+# FROM nginx:stable-alpine
 
-# Set the working directory.
+# Set working directory to nginx asset directory
 # RUN mkdir /app
+# WORKDIR /usr/share/nginx/html
 
+# Remove default nginx static assets
+# RUN rm -rf ./*
+
+# Copy static assets from builder stage
+# COPY --from=builder /usr/local/app/build .
 # COPY nginx.conf /etc/nginx/nginx.conf
 
 # EXPOSE 8081

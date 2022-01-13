@@ -3,7 +3,7 @@ require 'rake/testtask'
 IMAGE = 'myapp-ruby-api'.freeze
 IMAGE_TAG = '0.1'
 
-namespace :myapp do
+namespace :myapps-ns do
   task default: %w[test]
 
   desc 'Build image'
