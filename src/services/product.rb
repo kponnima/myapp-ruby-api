@@ -5,8 +5,6 @@ require_relative '../datastore/products'
 module SupportServices
   module Services
     class Product
-      # def initialize
-      # end
       def initialize(logger)
         @logger = logger
       end

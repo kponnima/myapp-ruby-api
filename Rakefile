@@ -3,7 +3,7 @@ require 'rake/testtask'
 IMAGE = 'myapp-ruby-api'.freeze
 IMAGE_TAG = '0.1'
 
-namespace :myapps-ns do
+namespace "myapps-ns" do
   task default: %w[test]
 
   desc 'Build image'
@@ -12,12 +12,13 @@ namespace :myapps-ns do
     Rake::Task['docker:build'].invoke(IMAGE, args[:image_tag])
   end
 
-  task :seed do
+  desc 'Deploy image'
+  task :deploy, [:image_tag] do |_t, args|
+    args.with_defaults(image_tag: IMAGE_TAG)
+    Rake::Task['docker:build'].invoke(IMAGE, args[:image_tag])
   end
 
-  task :migrate do
-  end
-
+  desc 'Run tests'
   task :test do
     ruby "test/unittest.rb"
   end

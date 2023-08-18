@@ -1,7 +1,0 @@
-apiVersion: apps/v1
-kind: ConfigMap
-metadata:
-  name: environment-config
-  namespace: myapps-ns
-data:
-  app.env.mongo.user: "kushal"

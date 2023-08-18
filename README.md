@@ -1,15 +1,6 @@
 # myapp-ruby-api
 Ruby Sinatra Rest API application deployed to kubernetes cluster
 
-## Install Ruby
-* Run `brew install rbenv`
-* Run `rbenv install <version>`
-
--- verify using  
-`ruby -v`  
-`gem --version`
-
----
 ## Run the app
 `cd src`  
 `bundle install`
@@ -23,16 +14,19 @@ Ruby Sinatra Rest API application deployed to kubernetes cluster
 
 1. Build and Run the app without docker compose
 
-   `docker build -t myapp-ruby-api .`
-   `docker run --rm -p 8081:80 myapp-ruby-api`
+   `docker build --pull -t kponnima86/myapp-ruby-api:latest .`
+   `docker run --rm -p 8081:80 kponnima86/myapp-ruby-api`
 
 2. Docker Hub
 
-  `docker tag myapp-ruby-api kponnima86/myapp-ruby-api:latest` to tag the image with hostname & port of docker registry(docker hub).  
-  `docker login` to connect to docker registry.  
-  `docker push kponnima86/myapp-ruby-api:latest` to push the image to local docker registry.
+   * _OPTIONAL_ - Tag the image with hostname & port of docker registry(docker hub)
+  `docker tag myapp-ruby-api kponnima86/myapp-ruby-api:latest`
+   * _OPTIONAL_ - To connect to docker registry.
+  `docker login`
+   * Push the image to local docker registry.
+  `docker push kponnima86/myapp-ruby-api:latest`
 
-2. For single host(localhost), use `Docker Compose` to spin up multiple containers
+   * For single host(localhost), use `Docker Compose` to spin up multiple containers
    `docker-compose build`  
    `docker-compose build --no-cache` # preferred  
    `docker-compose up`  
@@ -40,17 +34,17 @@ Ruby Sinatra Rest API application deployed to kubernetes cluster
    `docker-compose ps`  
    `docker-compose down`
 
-   For multiples host(cloud clusters), use `Kubernetes` to spin up multiple containers
-   `kubectl apply -f kubernetes/deployment.yaml`
+   * For multiples host(cloud clusters), use `Kubernetes` to spin up multiple containers
+   `kubectl apply -f k8s/deployment.yaml`
 
 3. To connect to the API routes (NodePort on minikube)
 
-* Run `minikube service myapp-ruby-api --url` to get the deployed service url.
-Note: Since we are using Docker driver on darwin, the terminal needs to be open to run it.
-* Navigate to `deployed service url` to view the application in browser.
--- Alt
-* Run `kubectl port-forward svc/myapp-ruby-api 8080:8080` to map the service to localhost
-* Navigate to `http://localhost:8080` to view the application in browser.
+   * Run `minikube service myapp-ruby-api --url -n myapps-ns` to get the deployed service url.
+   Note: Since we are using Docker driver on darwin, the terminal needs to be open to run it.
+   * Navigate to `deployed service url` to view the application in browser.
+   -- Alt
+   * Run `kubectl port-forward svc/myapp-ruby-api 8080:8080` to map the service to localhost
+   * Navigate to `http://localhost:8080` to view the application in browser.
 
 4. View list of containers and images
 

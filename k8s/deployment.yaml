@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: myapp-ruby-api
   namespace: myapps-ns
+  labels:
+    app: myapp-ruby-api
 spec:
   replicas: 2
   selector:
@@ -16,7 +18,8 @@ spec:
       containers:
         - name: myapp-ruby-api
           image: docker.io/kponnima86/myapp-ruby-api:latest
-          imagePullPolicy: Always
+          # command: [ "/bin/sh", "-c", "ls /etc/config/" ]
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
           resources:
@@ -26,16 +29,23 @@ spec:
             limits:
               memory: "200Mi"
               cpu: "600m"
-          env:
-            - name: PORT
-              value: "8081"
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8081
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 2
+          # volumeMounts:
+          #   - name: config-volume
+          #     mountPath: /etc/config
+          # env:
+          #   - name: PORT
+          #     value: "8082"
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: 8081
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 10
+          #   timeoutSeconds: 2
+      # volumes:
+      #   - name: config-volume
+      #     configMap:
+      #       name: app-config
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -48,7 +58,7 @@ spec:
     app: myapp-ruby-api
   type: NodePort
   ports:
-    - port: 80
+    - port: 80 # forwarded port
       targetPort: 8081
       protocol: TCP
-      nodePort: 31002 #Within default 30000-32767 minikube range
+      nodePort: 30001 #Within default 30000-32767 minikube range. Port 30000 is taken for minikube's dashboard.
